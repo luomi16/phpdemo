@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻列表</title>
+</head>
+
+<body>
+    <div id="myDiv">空的</div>
+    <ul id="uid">
+
+    </ul>
+    <script>
+        // 通过js 请求列表页接口数据，并展示出来 - [AJAX代码]
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+                //得到数据之后前端就可以操作数据的显示了
+                let res = xmlhttp.responseText;
+                // 前端要把请求到的后端接口，转成json格式
+                res = JSON.parse(res);
+                // 打印到浏览器输出台
+                console.log(res);
+                for(let i = 0; i < res.length; i++){
+                    // console.log(res[i]);
+                    // 通过dom选择器，放进ul里面
+                    document.querySelector("#uid").innerHTML += "<li>"+ res[i] + "</li>";
+                }
+            }
+        }
+        // 引用api
+        xmlhttp.open("GET", "http://localhost/demo/newsapi/list.php", true);
+        xmlhttp.send();
+    </script>
+</body>
+
+</html>
